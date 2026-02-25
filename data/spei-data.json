@@ -1,0 +1,14 @@
+{
+  "transferencia_exitosa": {
+    "monto": 1500.50,
+    "concepto": "Certificación SPEI Auditoría",
+    "clabe_destino": "012180001234567890",
+    "beneficiario": "Mich Vivar"
+  },
+  "transferencia_monto_bajo": {
+    "monto": 1.00,
+    "concepto": "Prueba Centavo",
+    "clabe_destino": "012180001234567890",
+    "beneficiario": "QA Automation"
+  }
+}

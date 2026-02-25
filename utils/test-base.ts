@@ -5,39 +5,30 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 
 let auditManifest: any = {};
-
 const MANIFEST_PATH = path.resolve(__dirname, '../config/audit-manifest.json');
 
-// 3. Intentamos cargarlo dinámicamente
 if (fs.existsSync(MANIFEST_PATH)) {
     auditManifest = fs.readJsonSync(MANIFEST_PATH);
-} else {
-    // Si no existe, dejamos un objeto vacío para que el QA sepa que debe hacer "sync"
-    console.warn('⚠️ [Aviso] No se encontró audit-manifest.json. Corre el script de sync para generarlo.');
 }
 
 interface StepReport {
     title: string;
     screenshotPath: string;
     status: 'passed' | 'failed' | 'skipped' | 'pending';
-    apiInfo?: any;
+    apiInfo?: any; // 👈 Aquí guardaremos el JSON de la API
     vitals?: any;
 }
 
 export interface MyFixtures {
     pm: PageManager;
-    // 🎯 Se inyecta una función de auditoría local en lugar de Jira
     makeStep: (title: string, task: () => Promise<void>, apiData?: any) => Promise<void>;
 }
-
-// 📁 Carpeta para memoria de estructuras (Útil para depuración local)
-const MEMORY_DIR = path.join(process.cwd(), 'config', 'test-structures');
 
 async function captureWebVitals(page: any) {
     try {
         return await page.evaluate(() => {
             const [entry] = performance.getEntriesByType("navigation") as any;
-            if (!entry) return null;
+            if (!entry || entry.name === 'about:blank') return null; // 👈 No vitals en páginas vacías
             return {
                 loadTime: Number((entry.loadEventEnd / 1000).toFixed(2)),
                 ttfb: Number((entry.responseStart / 1000).toFixed(2)),
@@ -55,7 +46,13 @@ export const test = base.extend<MyFixtures>({
         const testKey = testInfo.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
 
         const makeStep = async (title: string, task: () => Promise<void>, apiData?: any) => {
-            const stepEntry: StepReport = { title, screenshotPath: '', apiInfo: apiData, status: 'skipped' };
+            // 🎯 Guardamos apiData si viene en la llamada
+            const stepEntry: StepReport = { 
+                title, 
+                screenshotPath: '', 
+                apiInfo: apiData ? JSON.stringify(apiData, null, 2) : null, 
+                status: 'skipped' 
+            };
             currentAttemptSteps.push(stepEntry);
 
             await base.step(title, async () => {
@@ -64,7 +61,10 @@ export const test = base.extend<MyFixtures>({
                     await task();
                     stepEntry.status = 'passed';
                     
-                    if (!page.isClosed()) {
+                    // 📸 LÓGICA INTELIGENTE DE CAPTURA
+                    const isAboutBlank = page.url() === 'about:blank';
+                    
+                    if (!page.isClosed() && !isAboutBlank) {
                         const metrics = await captureWebVitals(page);
                         if (metrics) stepEntry.vitals = metrics;
                         
@@ -72,11 +72,13 @@ export const test = base.extend<MyFixtures>({
                         await fs.ensureDir('test-results');
                         await page.screenshot({ path: ssPath, scale: 'css' });
                         stepEntry.screenshotPath = ssPath;
+                    } else if (isAboutBlank && apiData) {
+                        // Si no hay foto pero hay API, el generador usará apiInfo en lugar de imagen
+                        console.log(`ℹ️ [Info] Paso de API detectado: ${title}. Omitiendo captura blanca.`);
                     }
                 } catch (error) {
                     stepEntry.status = 'failed';
-                    // Captura de error siempre activa para auditoría
-                    if (!page.isClosed()) {
+                    if (!page.isClosed() && page.url() !== 'about:blank') {
                         const errPath = path.join('test-results', `ERROR_${testKey}_${Date.now()}.png`);
                         await fs.ensureDir('test-results');
                         await page.screenshot({ path: errPath, scale: 'css' });
@@ -89,14 +91,10 @@ export const test = base.extend<MyFixtures>({
 
         await use(makeStep);
 
-        // --- GENERACIÓN DE EVIDENCIA CORPORATIVA (CIERRE) ---
         const isLastRetry = testInfo.retry === testInfo.project.retries;
-
         if (isLastRetry) {
             const rawProjectName = testInfo.project.name.toLowerCase();
             const browserName = rawProjectName.includes('firefox') ? 'firefox' : 'chromium';
-
-            // 📜 Buscamos en el Manifiesto de Auditoría
             const masterData = (auditManifest as any)[testInfo.title];
             
             let finalShell = currentAttemptSteps.map(s => ({ title: s.title }));
@@ -107,7 +105,6 @@ export const test = base.extend<MyFixtures>({
                 relatedStories = masterData.relatedStories || [];
             }
 
-            // 📄 Generación del PDF (Mantenemos tu generador V2)
             await generateCorporatePDF_V2(
                 testInfo, 
                 finalShell, 
@@ -119,11 +116,9 @@ export const test = base.extend<MyFixtures>({
     },
 });
 
-// 🧹 AfterEach simplificado: Solo loguea el resultado técnico localmente
 test.afterEach(async ({}, testInfo) => {
     const statusIcon = testInfo.status === 'passed' ? '✅' : '❌';
     console.log(`${statusIcon} [AUDITORÍA]: Test "${testInfo.title}" finalizado con estado: ${testInfo.status?.toUpperCase()}`);
-    console.log(`📂 Evidencia técnica disponible en: ./test-results/ y ./target/Evidencias_PDF/`);
 });
 
 export { expect };

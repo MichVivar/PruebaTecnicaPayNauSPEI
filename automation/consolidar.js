@@ -1,53 +1,56 @@
+/**
+ * @file consolidar.js
+ * @description Centraliza todas las evidencias dentro de la carpeta de la sesión en Evidencias_PDF.
+ */
+
 const fs = require('fs-extra');
 const path = require('path');
 require('dotenv').config();
 
 const root = process.cwd();
-const manifiestoPath = path.join(root, 'config', 'audit-manifest.json');
-const rutaEvidenciasPadre = path.join(root, 'target', 'Evidencias_PDF');
+const EJECUCION_ID = process.env.EJECUCION_ID || process.env.RUN_ID;
+const baseEvidencias = path.join(root, 'target', 'Evidencias_PDF');
 
-async function consolidarAuditoria() {
-    console.log(`\n🚀 [AUDITORÍA] Verificando generación de evidencias...`);
+async function consolidarEnRutaUnica() {
+    console.log(`\n🚀 [CONSOLIDACIÓN] Unificando reportes técnicos...`);
 
-    if (!fs.existsSync(manifiestoPath)) {
-        console.error("❌ No existe audit-manifest.json.");
-        return;
-    }
-
-    const manifiesto = fs.readJsonSync(manifiestoPath);
-
-    for (const [tituloTest] of Object.entries(manifiesto)) {
-        // BUSCAMOS EL PDF EN TU RUTA DE SIEMPRE
-        const pdfPath = buscarPdfRecursivo(rutaEvidenciasPadre, tituloTest);
-        
-        if (!pdfPath) {
-            console.log(`⏭️ No se encontró PDF para: "${tituloTest}" en target/Evidencias_PDF`);
-            continue;
-        }
-
-        console.log(`✅ Evidencia encontrada en su ruta original:`);
-        console.log(`   📂 ${path.relative(root, pdfPath)}`);
-    }
+    // 1. Identificar la carpeta de la sesión más reciente
+    let carpetaSesion = path.join(baseEvidencias, EJECUCION_ID || '');
     
-    console.log(`\n🏁 Validación completada.`);
-}
-
-function buscarPdfRecursivo(dir, tituloTest) {
-    if (!fs.existsSync(dir)) return null;
-    const cleanSearch = tituloTest.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-    const items = fs.readdirSync(dir);
-
-    for (const item of items) {
-        const fullPath = path.join(dir, item);
-        if (fs.statSync(fullPath).isDirectory()) {
-            const found = buscarPdfRecursivo(fullPath, tituloTest);
-            if (found) return found;
-        } else if (item.toLowerCase().endsWith('.pdf')) {
-            const cleanFile = item.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
-            if (cleanFile.includes(cleanSearch)) return fullPath;
-        }
+    if (!EJECUCION_ID || !fs.existsSync(carpetaSesion)) {
+        const carpetas = fs.readdirSync(baseEvidencias)
+            .filter(name => fs.statSync(path.join(baseEvidencias, name)).isDirectory())
+            .map(name => ({ name, time: fs.statSync(path.join(baseEvidencias, name)).mtime.getTime() }))
+            .sort((a, b) => b.time - a.time);
+        
+        if (carpetas.length === 0) return console.error("❌ No se encontraron carpetas de evidencia.");
+        carpetaSesion = path.join(baseEvidencias, carpetas[0].name);
     }
-    return null;
+
+    console.log(`📂 Carpeta de destino: ${path.relative(root, carpetaSesion)}`);
+
+    // 2. Rutas de origen (Playwright Nativo)
+    const rutaPlaywrightHTML = path.join(root, 'playwright-report');
+    const rutaPlaywrightPDF = path.join(rutaPlaywrightHTML, 'pdf', 'test-report.pdf');
+
+    // 3. MOVER REPORTES TÉCNICOS AL INTERIOR DE LA EVIDENCIA
+    try {
+        if (fs.existsSync(rutaPlaywrightHTML)) {
+            const destinoTecnico = path.join(carpetaSesion, 'Reporte_Tecnico_HTML');
+            await fs.copy(rutaPlaywrightHTML, destinoTecnico);
+            console.log(`   ✅ Reporte HTML integrado en la sesión.`);
+        }
+
+        if (fs.existsSync(rutaPlaywrightPDF)) {
+            // Lo renombramos para que sea claro en la raíz de la carpeta de evidencia
+            await fs.copy(rutaPlaywrightPDF, path.join(carpetaSesion, 'Anexo_Tecnico_Detallado.pdf'));
+            console.log(`   ✅ Anexo PDF técnico integrado.`);
+        }
+    } catch (err) {
+        console.warn(`   ⚠️ Error al mover reportes técnicos: ${err.message}`);
+    }
+
+    console.log(`\n🏁 Proceso finalizado. Todo vive en Evidencias_PDF.`);
 }
 
-consolidarAuditoria().catch(err => console.error("❌ Error Crítico:", err));
+consolidarEnRutaUnica().catch(err => console.error("❌ Error Crítico:", err));

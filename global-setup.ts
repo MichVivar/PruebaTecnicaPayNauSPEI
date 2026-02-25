@@ -16,7 +16,7 @@ async function globalSetup() {
         path.join(baseDir, 'allure-results'),
         path.join(baseDir, 'playwright-report'),
         path.join(baseDir, 'test-results'),
-        path.join(baseDir, 'target') // 👈 Agregamos target para limpiar tus PDFs anteriores
+        path.join(baseDir, 'target') 
     ];
     
     // 2. Limpieza de evidencias

@@ -82,24 +82,23 @@
   },
   "suites": [
     {
-      "title": "ui/login.spec.ts",
-      "file": "ui/login.spec.ts",
+      "title": "api/spei-transfer.spec.ts",
+      "file": "api/spei-transfer.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Pruebas de Seguridad y Acceso @AuthTests",
-          "file": "ui/login.spec.ts",
-          "line": 3,
+          "title": "Certificación SPEI",
+          "file": "api/spei-transfer.spec.ts",
+          "line": 5,
           "column": 6,
           "specs": [
             {
-              "title": "Validar mensaje de error con credenciales inválidas @NegativeTest",
-              "ok": false,
+              "title": "Certificación SPEI: Flujo Asíncrono Completo @api",
+              "ok": true,
               "tags": [
-                "AuthTests",
-                "NegativeTest"
+                "api"
               ],
               "tests": [
                 {
@@ -112,86 +111,73 @@
                     {
                       "workerIndex": 0,
                       "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 583,
-                      "error": {
-                        "message": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://portal.tu-empresa.com/\nCall log:\n\u001b[2m  - navigating to \"https://portal.tu-empresa.com/\", waiting until \"load\"\u001b[22m\n",
-                        "stack": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://portal.tu-empresa.com/\nCall log:\n\u001b[2m  - navigating to \"https://portal.tu-empresa.com/\", waiting until \"load\"\u001b[22m\n\n    at LoginPage.navegarA (/app/pages/base.page.ts:38:25)\n    at LoginPage.cargarPagina (/app/pages/login.page.ts:24:20)\n    at task (/app/tests/ui/login.spec.ts:7:32)\n    at /app/utils/test-base.ts:64:27\n    at makeStep (/app/utils/test-base.ts:61:24)\n    at /app/tests/ui/login.spec.ts:6:15",
-                        "location": {
-                          "file": "/app/pages/base.page.ts",
-                          "column": 25,
-                          "line": 38
-                        },
-                        "snippet": "   at ../pages/base.page.ts:38\n\n\u001b[0m \u001b[90m 36 |\u001b[39m     \u001b[90m// Método para navegar a una URL\u001b[39m\n \u001b[90m 37 |\u001b[39m     \u001b[36masync\u001b[39m navegarA(url\u001b[33m:\u001b[39m string) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mgoto(url)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 40 |\u001b[39m     }\n \u001b[90m 41 |\u001b[39m }\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/app/pages/base.page.ts",
-                            "column": 25,
-                            "line": 38
-                          },
-                          "message": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://portal.tu-empresa.com/\nCall log:\n\u001b[2m  - navigating to \"https://portal.tu-empresa.com/\", waiting until \"load\"\u001b[22m\n\n\n   at ../pages/base.page.ts:38\n\n  36 |     // Método para navegar a una URL\n  37 |     async navegarA(url: string) {\n> 38 |         await this.page.goto(url);\n     |                         ^\n  39 |         await this.page.waitForLoadState('networkidle');\n  40 |     }\n  41 | }\n    at LoginPage.navegarA (/app/pages/base.page.ts:38:25)\n    at LoginPage.cargarPagina (/app/pages/login.page.ts:24:20)\n    at task (/app/tests/ui/login.spec.ts:7:32)\n    at /app/utils/test-base.ts:64:27\n    at makeStep (/app/utils/test-base.ts:61:24)\n    at /app/tests/ui/login.spec.ts:6:15"
-                        }
-                      ],
+                      "status": "passed",
+                      "duration": 404,
+                      "errors": [],
                       "stdout": [
                         {
-                          "text": "❌ [AUDITORÍA]: Test \"Validar mensaje de error con credenciales inválidas @NegativeTest\" finalizado con estado: FAILED\n"
+                          "text": "🚀 Enviando transferencia a: Mich Vivar\n"
                         },
                         {
-                          "text": "📂 Evidencia técnica disponible en: ./test-results/ y ./target/Evidencias_PDF/\n"
+                          "text": "ℹ️ [Info] Paso de API detectado: 2. Validar que el código de respuesta sea 202 Accepted. Omitiendo captura blanca.\n"
+                        },
+                        {
+                          "text": "ℹ️ [Info] Paso de API detectado: 3. Validar presencia de transaction_id. Omitiendo captura blanca.\n"
+                        },
+                        {
+                          "text": "ℹ️ [Info] Paso de API detectado: 4. Ejecutar Polling para esperar estado COMPLETED. Omitiendo captura blanca.\n"
+                        },
+                        {
+                          "text": "✅ [AUDITORÍA]: Test \"Certificación SPEI: Flujo Asíncrono Completo @api\" finalizado con estado: PASSED\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
                       "steps": [
                         {
-                          "title": "Cargar la página de login",
-                          "duration": 60,
-                          "error": {
-                            "message": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://portal.tu-empresa.com/\nCall log:\n\u001b[2m  - navigating to \"https://portal.tu-empresa.com/\", waiting until \"load\"\u001b[22m\n",
-                            "stack": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://portal.tu-empresa.com/\nCall log:\n\u001b[2m  - navigating to \"https://portal.tu-empresa.com/\", waiting until \"load\"\u001b[22m\n\n    at LoginPage.navegarA (/app/pages/base.page.ts:38:25)\n    at LoginPage.cargarPagina (/app/pages/login.page.ts:24:20)\n    at task (/app/tests/ui/login.spec.ts:7:32)\n    at /app/utils/test-base.ts:64:27\n    at makeStep (/app/utils/test-base.ts:61:24)\n    at /app/tests/ui/login.spec.ts:6:15",
-                            "location": {
-                              "file": "/app/pages/base.page.ts",
-                              "column": 25,
-                              "line": 38
-                            },
-                            "snippet": "   at ../pages/base.page.ts:38\n\n\u001b[0m \u001b[90m 36 |\u001b[39m     \u001b[90m// Método para navegar a una URL\u001b[39m\n \u001b[90m 37 |\u001b[39m     \u001b[36masync\u001b[39m navegarA(url\u001b[33m:\u001b[39m string) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mgoto(url)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 40 |\u001b[39m     }\n \u001b[90m 41 |\u001b[39m }\u001b[0m"
-                          }
+                          "title": "1. Consumir endpoint POST /api/v1/transfer/spei-out",
+                          "duration": 0
+                        },
+                        {
+                          "title": "2. Validar que el código de respuesta sea 202 Accepted",
+                          "duration": 2
+                        },
+                        {
+                          "title": "3. Validar presencia de transaction_id",
+                          "duration": 1
+                        },
+                        {
+                          "title": "4. Ejecutar Polling para esperar estado COMPLETED",
+                          "duration": 1
                         }
                       ],
-                      "startTime": "2026-02-25T10:18:27.158Z",
+                      "startTime": "2026-02-25T17:10:15.626Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "/app/test-results/ui-login-Pruebas-de-Seguri-a2081-ales-inválidas-NegativeTest-Chromium-Desktop/test-failed-1.png"
+                          "path": "/app/test-results/api-spei-transfer-Certific-63b73-lujo-Asíncrono-Completo-api-Chromium-Desktop/test-finished-1.png"
                         },
                         {
                           "name": "video",
                           "contentType": "video/webm",
-                          "path": "/app/test-results/ui-login-Pruebas-de-Seguri-a2081-ales-inválidas-NegativeTest-Chromium-Desktop/video.webm"
+                          "path": "/app/test-results/api-spei-transfer-Certific-63b73-lujo-Asíncrono-Completo-api-Chromium-Desktop/video.webm"
                         },
                         {
                           "name": "trace",
                           "contentType": "application/zip",
-                          "path": "/app/test-results/ui-login-Pruebas-de-Seguri-a2081-ales-inválidas-NegativeTest-Chromium-Desktop/trace.zip"
+                          "path": "/app/test-results/api-spei-transfer-Certific-63b73-lujo-Asíncrono-Completo-api-Chromium-Desktop/trace.zip"
                         }
-                      ],
-                      "errorLocation": {
-                        "file": "/app/pages/base.page.ts",
-                        "column": 25,
-                        "line": 38
-                      }
+                      ]
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
-              "id": "25217b8bb4316ea872c4-107265c1177784b51d6c",
-              "file": "ui/login.spec.ts",
-              "line": 5,
+              "id": "815d99b9aad3f6327b80-a5a02a75a68094c68aef",
+              "file": "api/spei-transfer.spec.ts",
+              "line": 7,
               "column": 9
             }
           ]
@@ -201,11 +187,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-02-25T10:18:20.966Z",
-    "duration": 7115.142,
-    "expected": 0,
+    "startTime": "2026-02-25T17:10:09.442Z",
+    "duration": 6736.86,
+    "expected": 1,
     "skipped": 0,
-    "unexpected": 1,
+    "unexpected": 0,
     "flaky": 0
   }
 }
