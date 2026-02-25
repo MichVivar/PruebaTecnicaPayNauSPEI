@@ -1,0 +1,328 @@
+{
+  "config": {
+    "configFile": "/Users/michvivar/Documents/FramePrPractica/playwright.config.ts",
+    "rootDir": "/Users/michvivar/Documents/FramePrPractica/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": "/Users/michvivar/Documents/FramePrPractica/global-setup.ts",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/michvivar/Documents/FramePrPractica/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "Chromium-Desktop",
+        "name": "Chromium-Desktop",
+        "testDir": "/Users/michvivar/Documents/FramePrPractica/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/api/*.spec.ts",
+          "**/ui/*.spec.ts"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/michvivar/Documents/FramePrPractica/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "Mobile-Pixel7",
+        "name": "Mobile-Pixel7",
+        "testDir": "/Users/michvivar/Documents/FramePrPractica/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/api/*.spec.ts",
+          "**/ui/*.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results.json"
+        }
+      ],
+      [
+        "/Users/michvivar/Documents/FramePrPractica/node_modules/allure-playwright/dist/cjs/index.js",
+        {
+          "outputFolder": "allure-results"
+        }
+      ],
+      [
+        "/Users/michvivar/Documents/FramePrPractica/node_modules/playwright-pdf-reporter/dist/index.js",
+        {
+          "outputFolder": "./target/Evidencias_PDF/Certificacion_SPEI",
+          "filename": "Reporte_Tecnico_SPEI",
+          "aggregate": true
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.1",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "ui/login.spec.ts",
+      "file": "ui/login.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Pruebas de Seguridad y Acceso @AuthTests",
+          "file": "ui/login.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Validar mensaje de error con credenciales inválidas @NegativeTest",
+              "ok": false,
+              "tags": [
+                "AuthTests",
+                "NegativeTest"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Chromium-Desktop",
+                  "projectName": "Chromium-Desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 585,
+                      "error": {
+                        "message": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://sandbox.spei.com.mx/\nCall log:\n\u001b[2m  - navigating to \"https://sandbox.spei.com.mx/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://sandbox.spei.com.mx/\nCall log:\n\u001b[2m  - navigating to \"https://sandbox.spei.com.mx/\", waiting until \"load\"\u001b[22m\n\n    at LoginPage.navegarA (/Users/michvivar/Documents/FramePrPractica/pages/base.page.ts:38:25)\n    at LoginPage.cargarPagina (/Users/michvivar/Documents/FramePrPractica/pages/login.page.ts:24:20)\n    at task (/Users/michvivar/Documents/FramePrPractica/tests/ui/login.spec.ts:7:32)\n    at /Users/michvivar/Documents/FramePrPractica/utils/test-base.ts:64:27\n    at makeStep (/Users/michvivar/Documents/FramePrPractica/utils/test-base.ts:61:24)\n    at /Users/michvivar/Documents/FramePrPractica/tests/ui/login.spec.ts:6:15",
+                        "location": {
+                          "file": "/Users/michvivar/Documents/FramePrPractica/pages/base.page.ts",
+                          "column": 25,
+                          "line": 38
+                        },
+                        "snippet": "\u001b[90m   at \u001b[39m../pages/base.page.ts:38\n\n\u001b[0m \u001b[90m 36 |\u001b[39m     \u001b[90m// Método para navegar a una URL\u001b[39m\n \u001b[90m 37 |\u001b[39m     \u001b[36masync\u001b[39m navegarA(url\u001b[33m:\u001b[39m string) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mgoto(url)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 40 |\u001b[39m     }\n \u001b[90m 41 |\u001b[39m }\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/michvivar/Documents/FramePrPractica/pages/base.page.ts",
+                            "column": 25,
+                            "line": 38
+                          },
+                          "message": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://sandbox.spei.com.mx/\nCall log:\n\u001b[2m  - navigating to \"https://sandbox.spei.com.mx/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[90m   at \u001b[39m../pages/base.page.ts:38\n\n\u001b[0m \u001b[90m 36 |\u001b[39m     \u001b[90m// Método para navegar a una URL\u001b[39m\n \u001b[90m 37 |\u001b[39m     \u001b[36masync\u001b[39m navegarA(url\u001b[33m:\u001b[39m string) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mgoto(url)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 40 |\u001b[39m     }\n \u001b[90m 41 |\u001b[39m }\u001b[0m\n\u001b[2m    at LoginPage.navegarA (/Users/michvivar/Documents/FramePrPractica/pages/base.page.ts:38:25)\u001b[22m\n\u001b[2m    at LoginPage.cargarPagina (/Users/michvivar/Documents/FramePrPractica/pages/login.page.ts:24:20)\u001b[22m\n\u001b[2m    at task (/Users/michvivar/Documents/FramePrPractica/tests/ui/login.spec.ts:7:32)\u001b[22m\n\u001b[2m    at /Users/michvivar/Documents/FramePrPractica/utils/test-base.ts:64:27\u001b[22m\n\u001b[2m    at makeStep (/Users/michvivar/Documents/FramePrPractica/utils/test-base.ts:61:24)\u001b[22m\n\u001b[2m    at /Users/michvivar/Documents/FramePrPractica/tests/ui/login.spec.ts:6:15\u001b[22m"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "❌ [AUDITORÍA]: Test \"Validar mensaje de error con credenciales inválidas @NegativeTest\" finalizado con estado: FAILED\n"
+                        },
+                        {
+                          "text": "📂 Evidencia técnica disponible en: ./test-results/ y ./target/Evidencias_PDF/\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Cargar la página de login",
+                          "duration": 74,
+                          "error": {
+                            "message": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://sandbox.spei.com.mx/\nCall log:\n\u001b[2m  - navigating to \"https://sandbox.spei.com.mx/\", waiting until \"load\"\u001b[22m\n",
+                            "stack": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://sandbox.spei.com.mx/\nCall log:\n\u001b[2m  - navigating to \"https://sandbox.spei.com.mx/\", waiting until \"load\"\u001b[22m\n\n    at LoginPage.navegarA (/Users/michvivar/Documents/FramePrPractica/pages/base.page.ts:38:25)\n    at LoginPage.cargarPagina (/Users/michvivar/Documents/FramePrPractica/pages/login.page.ts:24:20)\n    at task (/Users/michvivar/Documents/FramePrPractica/tests/ui/login.spec.ts:7:32)\n    at /Users/michvivar/Documents/FramePrPractica/utils/test-base.ts:64:27\n    at makeStep (/Users/michvivar/Documents/FramePrPractica/utils/test-base.ts:61:24)\n    at /Users/michvivar/Documents/FramePrPractica/tests/ui/login.spec.ts:6:15",
+                            "location": {
+                              "file": "/Users/michvivar/Documents/FramePrPractica/pages/base.page.ts",
+                              "column": 25,
+                              "line": 38
+                            },
+                            "snippet": "\u001b[90m   at \u001b[39m../pages/base.page.ts:38\n\n\u001b[0m \u001b[90m 36 |\u001b[39m     \u001b[90m// Método para navegar a una URL\u001b[39m\n \u001b[90m 37 |\u001b[39m     \u001b[36masync\u001b[39m navegarA(url\u001b[33m:\u001b[39m string) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mgoto(url)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 40 |\u001b[39m     }\n \u001b[90m 41 |\u001b[39m }\u001b[0m"
+                          }
+                        }
+                      ],
+                      "startTime": "2026-02-25T08:36:29.173Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/michvivar/Documents/FramePrPractica/test-results/ui-login-Pruebas-de-Seguri-a2081-ales-inválidas-NegativeTest-Chromium-Desktop/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/michvivar/Documents/FramePrPractica/test-results/ui-login-Pruebas-de-Seguri-a2081-ales-inválidas-NegativeTest-Chromium-Desktop/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/michvivar/Documents/FramePrPractica/test-results/ui-login-Pruebas-de-Seguri-a2081-ales-inválidas-NegativeTest-Chromium-Desktop/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/michvivar/Documents/FramePrPractica/pages/base.page.ts",
+                        "column": 25,
+                        "line": 38
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "25217b8bb4316ea872c4-107265c1177784b51d6c",
+              "file": "ui/login.spec.ts",
+              "line": 5,
+              "column": 9
+            },
+            {
+              "title": "Validar mensaje de error con credenciales inválidas @NegativeTest",
+              "ok": false,
+              "tags": [
+                "AuthTests",
+                "NegativeTest"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile-Pixel7",
+                  "projectName": "Mobile-Pixel7",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 612,
+                      "error": {
+                        "message": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://sandbox.spei.com.mx/\nCall log:\n\u001b[2m  - navigating to \"https://sandbox.spei.com.mx/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://sandbox.spei.com.mx/\nCall log:\n\u001b[2m  - navigating to \"https://sandbox.spei.com.mx/\", waiting until \"load\"\u001b[22m\n\n    at LoginPage.navegarA (/Users/michvivar/Documents/FramePrPractica/pages/base.page.ts:38:25)\n    at LoginPage.cargarPagina (/Users/michvivar/Documents/FramePrPractica/pages/login.page.ts:24:20)\n    at task (/Users/michvivar/Documents/FramePrPractica/tests/ui/login.spec.ts:7:32)\n    at /Users/michvivar/Documents/FramePrPractica/utils/test-base.ts:64:27\n    at makeStep (/Users/michvivar/Documents/FramePrPractica/utils/test-base.ts:61:24)\n    at /Users/michvivar/Documents/FramePrPractica/tests/ui/login.spec.ts:6:15",
+                        "location": {
+                          "file": "/Users/michvivar/Documents/FramePrPractica/pages/base.page.ts",
+                          "column": 25,
+                          "line": 38
+                        },
+                        "snippet": "\u001b[90m   at \u001b[39m../pages/base.page.ts:38\n\n\u001b[0m \u001b[90m 36 |\u001b[39m     \u001b[90m// Método para navegar a una URL\u001b[39m\n \u001b[90m 37 |\u001b[39m     \u001b[36masync\u001b[39m navegarA(url\u001b[33m:\u001b[39m string) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mgoto(url)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 40 |\u001b[39m     }\n \u001b[90m 41 |\u001b[39m }\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/michvivar/Documents/FramePrPractica/pages/base.page.ts",
+                            "column": 25,
+                            "line": 38
+                          },
+                          "message": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://sandbox.spei.com.mx/\nCall log:\n\u001b[2m  - navigating to \"https://sandbox.spei.com.mx/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[90m   at \u001b[39m../pages/base.page.ts:38\n\n\u001b[0m \u001b[90m 36 |\u001b[39m     \u001b[90m// Método para navegar a una URL\u001b[39m\n \u001b[90m 37 |\u001b[39m     \u001b[36masync\u001b[39m navegarA(url\u001b[33m:\u001b[39m string) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mgoto(url)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 40 |\u001b[39m     }\n \u001b[90m 41 |\u001b[39m }\u001b[0m\n\u001b[2m    at LoginPage.navegarA (/Users/michvivar/Documents/FramePrPractica/pages/base.page.ts:38:25)\u001b[22m\n\u001b[2m    at LoginPage.cargarPagina (/Users/michvivar/Documents/FramePrPractica/pages/login.page.ts:24:20)\u001b[22m\n\u001b[2m    at task (/Users/michvivar/Documents/FramePrPractica/tests/ui/login.spec.ts:7:32)\u001b[22m\n\u001b[2m    at /Users/michvivar/Documents/FramePrPractica/utils/test-base.ts:64:27\u001b[22m\n\u001b[2m    at makeStep (/Users/michvivar/Documents/FramePrPractica/utils/test-base.ts:61:24)\u001b[22m\n\u001b[2m    at /Users/michvivar/Documents/FramePrPractica/tests/ui/login.spec.ts:6:15\u001b[22m"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "❌ [AUDITORÍA]: Test \"Validar mensaje de error con credenciales inválidas @NegativeTest\" finalizado con estado: FAILED\n"
+                        },
+                        {
+                          "text": "📂 Evidencia técnica disponible en: ./test-results/ y ./target/Evidencias_PDF/\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Cargar la página de login",
+                          "duration": 69,
+                          "error": {
+                            "message": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://sandbox.spei.com.mx/\nCall log:\n\u001b[2m  - navigating to \"https://sandbox.spei.com.mx/\", waiting until \"load\"\u001b[22m\n",
+                            "stack": "Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://sandbox.spei.com.mx/\nCall log:\n\u001b[2m  - navigating to \"https://sandbox.spei.com.mx/\", waiting until \"load\"\u001b[22m\n\n    at LoginPage.navegarA (/Users/michvivar/Documents/FramePrPractica/pages/base.page.ts:38:25)\n    at LoginPage.cargarPagina (/Users/michvivar/Documents/FramePrPractica/pages/login.page.ts:24:20)\n    at task (/Users/michvivar/Documents/FramePrPractica/tests/ui/login.spec.ts:7:32)\n    at /Users/michvivar/Documents/FramePrPractica/utils/test-base.ts:64:27\n    at makeStep (/Users/michvivar/Documents/FramePrPractica/utils/test-base.ts:61:24)\n    at /Users/michvivar/Documents/FramePrPractica/tests/ui/login.spec.ts:6:15",
+                            "location": {
+                              "file": "/Users/michvivar/Documents/FramePrPractica/pages/base.page.ts",
+                              "column": 25,
+                              "line": 38
+                            },
+                            "snippet": "\u001b[90m   at \u001b[39m../pages/base.page.ts:38\n\n\u001b[0m \u001b[90m 36 |\u001b[39m     \u001b[90m// Método para navegar a una URL\u001b[39m\n \u001b[90m 37 |\u001b[39m     \u001b[36masync\u001b[39m navegarA(url\u001b[33m:\u001b[39m string) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mgoto(url)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 40 |\u001b[39m     }\n \u001b[90m 41 |\u001b[39m }\u001b[0m"
+                          }
+                        }
+                      ],
+                      "startTime": "2026-02-25T08:36:29.173Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/michvivar/Documents/FramePrPractica/test-results/ui-login-Pruebas-de-Seguri-a2081-ales-inválidas-NegativeTest-Mobile-Pixel7/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/michvivar/Documents/FramePrPractica/test-results/ui-login-Pruebas-de-Seguri-a2081-ales-inválidas-NegativeTest-Mobile-Pixel7/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/michvivar/Documents/FramePrPractica/test-results/ui-login-Pruebas-de-Seguri-a2081-ales-inválidas-NegativeTest-Mobile-Pixel7/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/michvivar/Documents/FramePrPractica/pages/base.page.ts",
+                        "column": 25,
+                        "line": 38
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "25217b8bb4316ea872c4-af9b93af41942910f274",
+              "file": "ui/login.spec.ts",
+              "line": 5,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-02-25T08:36:28.614Z",
+    "duration": 1410.177,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

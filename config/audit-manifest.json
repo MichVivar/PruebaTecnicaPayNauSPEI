@@ -1,0 +1,11 @@
+{
+    "Validar mensaje de error con credenciales inválidas @NegativeTest": {
+        "steps": [
+            "Cargar la página de login",
+            "Intentar iniciar sesión con credenciales inválidas",
+            "Validar que se muestra el mensaje de error",
+            "Log de auditoría interna de fallos",
+            "Captura de estado de memoria del sistema"
+        ]
+    }
+}

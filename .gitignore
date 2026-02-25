@@ -1,0 +1,20 @@
+# 🛡️ SECRETOS (Lo más importante)
+.env
+.env.local
+.env.stack
+
+# 📦 DEPENDENCIAS
+node_modules/
+dist/
+
+# 📊 REPORTES Y EVIDENCIAS
+target/
+test-results/
+playwright-report/
+allure-results/
+allure-report/
+config/audit-manifest.json
+
+# 🖥️ OTROS
+.DS_Store
+*.log

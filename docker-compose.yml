@@ -1,0 +1,38 @@
+# 🐳 Docker Compose: Infraestructura de Ejecución Inteligente
+# Configurado para sincronía total entre local y contenedor.
+
+services:
+  playwright-app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: teoncred-qa-runner:latest
+    container_name: qa-director-runner
+    shm_size: '2gb' # Evita crasheos de Chromium/Firefox
+    env_file: .env
+    
+    volumes:
+      # 🚀 Sincronía en tiempo real:
+      # Cualquier cambio en local (Mapas, Lock, Specs) entra al instante.
+      - .:/app
+      
+      # 🛡️ Protección de dependencias:
+      # Evita que tus node_modules de Windows/Mac choquen con los de Linux.
+      - /app/node_modules
+      
+      # 📊 Persistencia de Evidencias:
+      # Saca los PDFs y reportes del contenedor a tu carpeta local.
+      - ./target:/app/target
+      - ./test-results:/app/test-results
+      - ./playwright-report:/app/playwright-report
+      
+    # Variables de entorno críticas
+    environment:
+      - RUN_ID=${RUN_ID:-Ejecucion_Local}
+      - BROWSER=${BROWSER:-chromium}
+      - REPORT_JIRA=true
+      - CI=true
+
+networks:
+  default:
+    name: qa_network
