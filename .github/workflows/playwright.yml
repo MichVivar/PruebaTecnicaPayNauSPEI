@@ -1,0 +1,48 @@
+name: Playwright Tests (Certificación SPEI - Full Stack)
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - name: 📥 Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: 🏗️ Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+        cache: 'npm'
+
+    - name: 📦 Install dependencies
+      run: npm install
+
+    - name: 🐳 Run Tests in Docker (Bóveda Inyectada)
+      # 🛡️ Inyectamos los secretos desde la Bóveda de GitHub al proceso de Docker
+      env:
+        BASE_URL: ${{ secrets.BASE_URL }}
+        API_KEY_SPEI: ${{ secrets.API_KEY_SPEI }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      run: |
+        # Usamos -e para pasar cada secreto al contenedor de forma segura
+        docker compose run --rm \
+          -e BASE_URL=$BASE_URL \
+          -e API_KEY_SPEI=$API_KEY_SPEI \
+          -e DB_PASSWORD=$DB_PASSWORD \
+          -e EJECUCION_ID="CI-GitHub-$(date +%H%M)" \
+          playwright-app npm run report:full
+
+    - name: 📂 Upload Evidencias (PDFs de Auditoría)
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: reporte-certificacion-spei
+        path: |
+          target/ENTREGA_CERTIFICADA/
+          playwright-report/
+        retention-days: 5

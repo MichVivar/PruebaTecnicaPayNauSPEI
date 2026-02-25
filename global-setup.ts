@@ -1,43 +1,46 @@
 import fs from 'fs';
 import path from 'path';
+import * as dotenv from 'dotenv'; // 👈 Importante para leer el .env local
 
-/**
- * Global Setup optimizado para Certificación SPEI.
- * Ahora se encarga de preparar el entorno local y validar la Bóveda de Secretos ($0 costo).
- */
 async function globalSetup() {
     console.log('--- 🏗️ PREPARANDO ENTORNO DE CERTIFICACIÓN SPEI ---');
     const start = Date.now();
 
-    const baseDir = path.resolve(__dirname, '../'); 
+    // 1. Cargar la Bóveda Local (.env) 
+    // En GitHub Actions no hará nada (porque no hay .env), pero en local es vital.
+    dotenv.config();
+
+    // Ajustamos la ruta para que siempre apunte a la raíz real del proyecto
+    const baseDir = process.cwd(); 
     const dirsToClean = [
         path.join(baseDir, 'allure-results'),
         path.join(baseDir, 'playwright-report'),
-        path.join(baseDir, 'test-results')
-    ]
+        path.join(baseDir, 'test-results'),
+        path.join(baseDir, 'target') // 👈 Agregamos target para limpiar tus PDFs anteriores
+    ];
     
-    // 1. Limpieza de evidencias locales (para no mezclar ejecuciones)
+    // 2. Limpieza de evidencias
     dirsToClean.forEach(dir => {
         if (fs.existsSync(dir)) {
-            // Borra y recrea para asegurar limpieza total antes del examen
             fs.rmSync(dir, { recursive: true, force: true });
         }
         fs.mkdirSync(dir, { recursive: true });
     });
 
-    // 2. Validación de la Bóveda de Secretos (Variables de Entorno)
-    // Esto asegura que el framework no falle a mitad de camino por falta de credenciales
+    // 3. Validación de la Bóveda (Inyección de Secretos)
     const requiredSecrets = ['BASE_URL', 'API_KEY_SPEI', 'DB_PASSWORD'];
     const missingSecrets = requiredSecrets.filter(secret => !process.env[secret]);
 
     if (missingSecrets.length > 0) {
-        console.error('❌ ERROR DE SEGURIDAD: Faltan secretos en la bóveda:', missingSecrets);
-        // En un examen, esto demuestra que tu framework protege la integridad de la prueba
+        console.error('--------------------------------------------------------');
+        console.error('❌ ERROR DE SEGURIDAD: Bóveda incompleta.');
+        console.error('Faltan los siguientes secretos:', missingSecrets.join(', '));
+        console.error('--------------------------------------------------------');
         process.exit(1); 
     }
 
     const duration = ((Date.now() - start) / 1000).toFixed(2);
-    console.log(`✅ Entorno listo y Secretos validados en ${duration}s.\n`);
+    console.log(`✅ Bóveda validada y entorno limpio en ${duration}s.\n`);
 }
 
 export default globalSetup;
