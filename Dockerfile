@@ -12,9 +12,7 @@ RUN npm install && npm cache clean --force
 # Copia del código fuente
 COPY . .
 
-# --- AJUSTES PRO ---
 
-# 1. Aseguramos que el archivo de filtro exista en la imagen 
 # Esto evita que Docker lo vea como un "fantasma" al montar el volumen
 RUN touch .test_filter && chmod 777 .test_filter
 
@@ -26,5 +24,4 @@ ENV BROWSER=chromium
 ENV REPORT_JIRA=true
 
 # Ejecución
-# Usamos el formato de arreglo para que Docker maneje mejor las señales de terminación
 CMD ["npm", "run", "report:full"]

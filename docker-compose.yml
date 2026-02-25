@@ -6,8 +6,6 @@ services:
     image: teoncred-qa-runner:latest
     container_name: qa-director-runner
     shm_size: '2gb'
-    # 💡 CAMBIO CLAVE: Quitamos la línea rígida 'env_file: .env' 
-    # y la pasamos a la configuración de ejecución del comando si es necesario.
     
     volumes:
       - .:/app
@@ -17,7 +15,7 @@ services:
       - ./playwright-report:/app/playwright-report
       
     environment:
-      # 🛡️ Mapeamos las variables para que Docker las reciba del sistema operativo
+      # Mapeamos las variables para que Docker las reciba del sistema operativo
       - BASE_URL=${BASE_URL}
       - API_KEY_SPEI=${API_KEY_SPEI}
       - DB_PASSWORD=${DB_PASSWORD}

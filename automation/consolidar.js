@@ -14,7 +14,7 @@ const baseEvidencias = path.join(root, 'target', 'Evidencias_PDF');
 async function consolidarEnRutaUnica() {
     console.log(`\n🚀 [CONSOLIDACIÓN] Unificando reportes técnicos...`);
 
-    // 1. Identificar la carpeta de la sesión más reciente
+    // Identificar la carpeta de la sesión más reciente
     let carpetaSesion = path.join(baseEvidencias, EJECUCION_ID || '');
     
     if (!EJECUCION_ID || !fs.existsSync(carpetaSesion)) {
@@ -29,11 +29,11 @@ async function consolidarEnRutaUnica() {
 
     console.log(`📂 Carpeta de destino: ${path.relative(root, carpetaSesion)}`);
 
-    // 2. Rutas de origen (Playwright Nativo)
+    // Rutas de origen 
     const rutaPlaywrightHTML = path.join(root, 'playwright-report');
     const rutaPlaywrightPDF = path.join(rutaPlaywrightHTML, 'pdf', 'test-report.pdf');
 
-    // 3. MOVER REPORTES TÉCNICOS AL INTERIOR DE LA EVIDENCIA
+    // MOVER REPORTES TÉCNICOS AL INTERIOR DE LA EVIDENCIA
     try {
         if (fs.existsSync(rutaPlaywrightHTML)) {
             const destinoTecnico = path.join(carpetaSesion, 'Reporte_Tecnico_HTML');
@@ -42,7 +42,6 @@ async function consolidarEnRutaUnica() {
         }
 
         if (fs.existsSync(rutaPlaywrightPDF)) {
-            // Lo renombramos para que sea claro en la raíz de la carpeta de evidencia
             await fs.copy(rutaPlaywrightPDF, path.join(carpetaSesion, 'Anexo_Tecnico_Detallado.pdf'));
             console.log(`   ✅ Anexo PDF técnico integrado.`);
         }

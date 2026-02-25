@@ -6,11 +6,8 @@ async function globalSetup() {
     console.log('--- 🏗️ PREPARANDO ENTORNO DE CERTIFICACIÓN SPEI ---');
     const start = Date.now();
 
-    // 1. Cargar la Bóveda Local (.env) 
-    // En GitHub Actions no hará nada (porque no hay .env), pero en local es vital.
     dotenv.config();
 
-    // Ajustamos la ruta para que siempre apunte a la raíz real del proyecto
     const baseDir = process.cwd(); 
     const dirsToClean = [
         path.join(baseDir, 'allure-results'),
@@ -19,7 +16,6 @@ async function globalSetup() {
         path.join(baseDir, 'target') 
     ];
     
-    // 2. Limpieza de evidencias
     if (process.env.CI) {
         dirsToClean.forEach(dir => {
             if (fs.existsSync(dir)) {
@@ -34,7 +30,6 @@ async function globalSetup() {
         console.log('📚 [LOCAL] Manteniendo historial de evidencias.');
     }
 
-    // 3. Validación de la Bóveda (Inyección de Secretos)
     const requiredSecrets = ['BASE_URL', 'API_KEY_SPEI', 'DB_PASSWORD'];
     const missingSecrets = requiredSecrets.filter(secret => !process.env[secret]);
 

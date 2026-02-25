@@ -23,7 +23,7 @@ jobs:
       run: npm install
 
     - name: 🐳 Run Tests in Docker (Bóveda Inyectada)
-      # 🛡️ Inyectamos los secretos desde la Bóveda de GitHub al proceso de Docker
+      # Inyectamos los secretos desde la Bóveda de GitHub al proceso de Docker
       env:
         BASE_URL: ${{ secrets.BASE_URL }}
         API_KEY_SPEI: ${{ secrets.API_KEY_SPEI }}
@@ -37,7 +37,7 @@ jobs:
           playwright-app npm run report:full # 👈 Quitamos el -g 'api' de aquí si estaba estorbando
 
     - name: 📂 Upload Evidencias (PDFs de Auditoría)
-      if: always() # Importante para ver qué falló
+      if: always() 
       uses: actions/upload-artifact@v4
       with:
         name: reporte-certificacion-spei

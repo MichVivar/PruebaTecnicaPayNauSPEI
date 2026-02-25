@@ -21,10 +21,8 @@ async function sincronizarEstructuraAuditoria() {
     const manifiesto: any = {};
 
     for (const fileRoute of FILES_TO_SCAN) {
-        // Añadimos el archivo al proyecto de ts-morph para analizarlo
         const sourceFile = project.addSourceFileAtPath(fileRoute);
         
-        // Buscamos todas las funciones test('titulo', ...)
         const testCalls = sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression)
             .filter(call => {
                 const expr = call.getExpression().getText();
@@ -32,10 +30,8 @@ async function sincronizarEstructuraAuditoria() {
             });
 
         for (const call of testCalls) {
-            // 1. Extraer el Título del Test
             const title = call.getArguments()[0]?.getText().replace(/['"`]/g, '');
             
-            // 2. Extraer los nombres de los makeStep
             const steps: string[] = [];
             call.getDescendantsOfKind(SyntaxKind.CallExpression)
                 .filter(c => c.getExpression().getText() === 'makeStep')
@@ -44,7 +40,6 @@ async function sincronizarEstructuraAuditoria() {
                     if (stepTitle) steps.push(stepTitle);
                 });
 
-            // 3. Guardar solo si hay pasos (para que el JSON esté limpio)
             if (title && steps.length > 0) {
                 manifiesto[title] = {
                     steps: steps
@@ -57,7 +52,6 @@ async function sincronizarEstructuraAuditoria() {
         return console.warn('\n⚠️ No se encontraron tests con la función makeStep.');
     }
 
-    // Guardar el JSON (Formato super sencillo)
     fs.writeJsonSync(MANIFEST_PATH, manifiesto, { spaces: 4 });
 
     console.log(`\n✅ [ÉXITO]: Manifiesto generado en config/audit-manifest.json`);

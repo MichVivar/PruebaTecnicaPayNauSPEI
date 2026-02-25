@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 // 🔐 Cargamos la Bóveda de Secretos local (.env)
 dotenv.config();
 
-// Simplificamos el ID de ejecución para que sea local y no dependa de integraciones externas
 const REPORT_NAME = process.env.REPORT_NAME || 'Certificacion_SPEI';
 
 export default defineConfig({
@@ -30,7 +29,6 @@ export default defineConfig({
     [
       'playwright-pdf-reporter',
       {
-        // 📁 Ruta limpia y profesional para evidencias locales
         outputFolder: `./target/Evidencias_PDF/${REPORT_NAME}`,
         filename: `Reporte_Tecnico_SPEI`,
         aggregate: true
@@ -39,12 +37,11 @@ export default defineConfig({
   ],
 
   use: {
-    // 💡 URL desde variable de entorno para no "quemar" ambientes
     baseURL: process.env.BASE_URL || 'https://sandbox-api.tu-fintech.com', 
     actionTimeout: 15000,
     screenshot: 'on',
     video: 'on',
-    trace: 'on', // Fundamental para el análisis de fallos en SPEI
+    trace: 'on', 
     headless: true,
   },
 

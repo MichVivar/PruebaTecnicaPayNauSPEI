@@ -15,7 +15,7 @@ interface StepReport {
     title: string;
     screenshotPath: string;
     status: 'passed' | 'failed' | 'skipped' | 'pending';
-    apiInfo?: any; // 👈 Aquí guardaremos el JSON de la API
+    apiInfo?: any; 
     vitals?: any;
 }
 
@@ -28,7 +28,7 @@ async function captureWebVitals(page: any) {
     try {
         return await page.evaluate(() => {
             const [entry] = performance.getEntriesByType("navigation") as any;
-            if (!entry || entry.name === 'about:blank') return null; // 👈 No vitals en páginas vacías
+            if (!entry || entry.name === 'about:blank') return null; 
             return {
                 loadTime: Number((entry.loadEventEnd / 1000).toFixed(2)),
                 ttfb: Number((entry.responseStart / 1000).toFixed(2)),
@@ -46,7 +46,6 @@ export const test = base.extend<MyFixtures>({
         const testKey = testInfo.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
 
         const makeStep = async (title: string, task: () => Promise<void>, apiData?: any) => {
-            // 🎯 Guardamos apiData si viene en la llamada
             const stepEntry: StepReport = { 
                 title, 
                 screenshotPath: '', 
@@ -61,7 +60,6 @@ export const test = base.extend<MyFixtures>({
                     await task();
                     stepEntry.status = 'passed';
                     
-                    // 📸 LÓGICA INTELIGENTE DE CAPTURA
                     const isAboutBlank = page.url() === 'about:blank';
                     
                     if (!page.isClosed() && !isAboutBlank) {
@@ -73,7 +71,6 @@ export const test = base.extend<MyFixtures>({
                         await page.screenshot({ path: ssPath, scale: 'css' });
                         stepEntry.screenshotPath = ssPath;
                     } else if (isAboutBlank && apiData) {
-                        // Si no hay foto pero hay API, el generador usará apiInfo en lugar de imagen
                         console.log(`ℹ️ [Info] Paso de API detectado: ${title}. Omitiendo captura blanca.`);
                     }
                 } catch (error) {
