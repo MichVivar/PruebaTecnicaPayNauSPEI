@@ -7,6 +7,7 @@ Este proyecto es un **Framework de Automatización de Pruebas** de alto rendimie
 * **Playwright**: Motor principal elegido por su capacidad nativa de interceptación de red (Network Mocking) y su robustez para manejar procesos asíncronos complejos. Permite validar tanto la capa de API como la de UI en una misma suite.
 * **Docker**: El framework corre sobre contenedores para garantizar que el entorno de ejecución (versiones de Node, navegadores y dependencias) sea idéntico en cualquier máquina, eliminando conflictos de configuración.
 * **TypeScript**: Implementado para asegurar un código fuertemente tipado, facilitando el mantenimiento y reduciendo errores lógicos durante el desarrollo de los scripts.
+* **Bóveda de Seguridad (Vault Logic)**: El framework implementa una capa de gestión de secretos mediante variables de entorno y archivos `.env` protegidos. Está diseñado para integrarse con proveedores de secretos (como AWS Secrets Manager o HashiCorp Vault) en entornos productivos, asegurando que las credenciales de API y certificados SPEI nunca queden expuestos en el código fuente.
 
 ## 🏗️ Metodología de Diseño (POM & Service Layer)
 
@@ -24,6 +25,14 @@ El framework implementa una arquitectura **Page Object Model (POM)** extendida c
 * **Doble Reporteo de Evidencia**:
     * **Reporte Ejecutivo (PDF)**: Para cumplimiento y auditoría de procesos.
     * **Reporte Técnico (HTML)**: Para depuración profunda, logs de red y trazas de ejecución.
+
+## 🎡 Integración Continua (CI/CD)
+
+El framework está "Ready-to-Action" para pipelines de **Jenkins**, **GitHub Actions** o **GitLab CI**:
+
+* **Ejecución Headless**: Optimizado para correr en agentes de CI sin interfaz gráfica.
+* **Gestión de Artefactos**: La estructura de salida en `target/Evidencias_PDF` está diseñada para ser recolectada automáticamente como artefactos del build, permitiendo la consulta de evidencias sin necesidad de acceder al servidor de ejecución.
+* **Exit Codes Inteligentes**: El runner gestiona códigos de salida estandarizados, permitiendo detener el pipeline si se detectan fallos críticos en la certificación técnica.
 
 ## 🛠️ Instalación y Ejecución
 
@@ -44,6 +53,8 @@ El framework está diseñado para ejecutarse sin necesidad de instalar dependenc
     ./run-test.sh
     ```
     *Este script automatiza el ciclo de vida completo: Sincronización del Manifiesto -> Ejecución de Tests -> Consolidación de Evidencias.*
+
+> 🛡️ **Nota sobre Secretos**: Para ejecuciones locales, asegúrese de copiar el archivo `.env.example` a `.env` y configurar sus credenciales. En entornos de CI/CD, estas variables deben ser inyectadas a través del sistema de "Secrets" de su plataforma de despliegue.
 
 ## 📂 Estructura de Salida (Entregables)
 
