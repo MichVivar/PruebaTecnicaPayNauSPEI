@@ -38,11 +38,12 @@ jobs:
           playwright-app npm run report:full
 
     - name: 📂 Upload Evidencias (PDFs de Auditoría)
-      if: always()
+      if: always() # Importante para ver qué falló
       uses: actions/upload-artifact@v4
       with:
         name: reporte-certificacion-spei
+        # Quitamos espacios y saltos de línea para que GitHub no se confunda
         path: |
-          target/ENTREGA_CERTIFICADA/
+          target/
           playwright-report/
         retention-days: 5

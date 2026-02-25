@@ -22,9 +22,14 @@ async function globalSetup() {
     // 2. Limpieza de evidencias
     dirsToClean.forEach(dir => {
         if (fs.existsSync(dir)) {
-            fs.rmSync(dir, { recursive: true, force: true });
+            // En lugar de fs.rmSync(dir...), limpiamos lo de adentro
+            const files = fs.readdirSync(dir);
+            for (const file of files) {
+                fs.rmSync(path.join(dir, file), { recursive: true, force: true });
+            }
+        } else {
+            fs.mkdirSync(dir, { recursive: true });
         }
-        fs.mkdirSync(dir, { recursive: true });
     });
 
     // 3. Validación de la Bóveda (Inyección de Secretos)
