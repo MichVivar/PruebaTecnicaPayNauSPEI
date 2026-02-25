@@ -20,17 +20,19 @@ async function globalSetup() {
     ];
     
     // 2. Limpieza de evidencias
-    dirsToClean.forEach(dir => {
-        if (fs.existsSync(dir)) {
-            // En lugar de fs.rmSync(dir...), limpiamos lo de adentro
-            const files = fs.readdirSync(dir);
-            for (const file of files) {
-                fs.rmSync(path.join(dir, file), { recursive: true, force: true });
+    if (process.env.CI) {
+        dirsToClean.forEach(dir => {
+            if (fs.existsSync(dir)) {
+                const files = fs.readdirSync(dir);
+                for (const file of files) {
+                    fs.rmSync(path.join(dir, file), { recursive: true, force: true });
+                }
             }
-        } else {
-            fs.mkdirSync(dir, { recursive: true });
-        }
-    });
+        });
+        console.log('🧹 [CI] Entorno limpiado para ejecución fresca.');
+    } else {
+        console.log('📚 [LOCAL] Manteniendo historial de evidencias.');
+    }
 
     // 3. Validación de la Bóveda (Inyección de Secretos)
     const requiredSecrets = ['BASE_URL', 'API_KEY_SPEI', 'DB_PASSWORD'];

@@ -53,10 +53,5 @@ export default defineConfig({
       name: 'Chromium-Desktop',
       use: { ...devices['Desktop Chrome'] },
     },
-    // Dejamos uno mobile por si el examen pide validar la UI del comprobante
-    {
-      name: 'Mobile-Pixel7',
-      use: { ...devices['Pixel 7'] },
-    },
   ],
 });
