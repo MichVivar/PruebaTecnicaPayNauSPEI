@@ -1,2 +1,0 @@
-❌ [AUDITORÍA]: Test "Validar mensaje de error con credenciales inválidas @NegativeTest" finalizado con estado: FAILED
-📂 Evidencia técnica disponible en: ./test-results/ y ./target/Evidencias_PDF/
