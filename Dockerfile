@@ -27,4 +27,4 @@ ENV REPORT_JIRA=true
 
 # Ejecución
 # Usamos el formato de arreglo para que Docker maneje mejor las señales de terminación
-CMD ["npm", "run", "test:jira"]
+CMD ["npm", "run", "report:full"]
