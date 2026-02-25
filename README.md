@@ -1,58 +1,58 @@
-# 🧬 Project: TeonCred-QA-Engine (Experimental Lab)
+# 🛡️ SPEI Certification Framework (Auditoría Técnica)
 
-### **[🔒 PRIVATE ARCHITECTURE - SDET RESEARCH MODULE]**
+Este proyecto es un **Framework de Automatización de Pruebas** de alto rendimiento diseñado para la certificación técnica de flujos asíncronos en servicios SPEI. El sistema está optimizado para cumplir con normativas de **Auditoría**, automatizando la recolección de evidencias y la generación de reportes ejecutivos.
 
-Este repositorio no es un boilerplate de automatización convencional. Es un **entorno de laboratorio** para la experimentación de arquitecturas de **Gobernanza de Calidad Automática** y **Orquestación de Ciclo de Vida (ALM)**. 
+## 🚀 Justificación Tecnológica
 
-El sistema está diseñado como un **Motor de Inferencia de Calidad** que opera sobre la API de Jira y el análisis del árbol AST de TypeScript, eliminando la capa administrativa del proceso de Testing mediante **Burocracia Cero**.
+* **Playwright**: Motor principal elegido por su capacidad nativa de interceptación de red (Network Mocking) y su robustez para manejar procesos asíncronos complejos. Permite validar tanto la capa de API como la de UI en una misma suite.
+* **Docker**: El framework corre sobre contenedores para garantizar que el entorno de ejecución (versiones de Node, navegadores y dependencias) sea idéntico en cualquier máquina, eliminando conflictos de configuración.
+* **TypeScript**: Implementado para asegurar un código fuertemente tipado, facilitando el mantenimiento y reduciendo errores lógicos durante el desarrollo de los scripts.
 
----
+## 🏗️ Metodología de Diseño (POM & Service Layer)
 
-## ☣️ Advertencia de Laboratorio (Read Before Browsing)
+El framework implementa una arquitectura **Page Object Model (POM)** extendida con una **Capa de Servicios**:
 
-* **High Coupling:** La arquitectura está profundamente ligada a flujos de trabajo de Jira Cloud y esquemas de metadatos específicos. No es un sistema "Plug & Play".
-* **State Persistence:** El sistema utiliza un motor de *Locking* local que persiste estados de ejecución. La manipulación manual de los archivos `.json` en la carpeta `config/` puede corromper la integridad de la suite.
-* **Dockerized Core:** La ejecución fuera del contenedor orquestado puede resultar en comportamientos inconsistentes debido a la gestión crítica de memoria compartida (`shm_size`) y dependencias binarias de los motores de renderizado.
+1.  **Service Layer (`services/`)**: Centraliza la lógica de negocio. El `SpeiService` encapsula las peticiones HTTP y la lógica de "Polling" para verificar el estado de las transferencias.
+2.  **Test Layer (`tests/`)**: Scripts de prueba desacoplados de la implementación técnica, enfocados en el flujo funcional.
+3.  **Fixtures Customizados (`utils/test-base.ts`)**: Extensión del núcleo de Playwright que automatiza la creación de pasos de auditoría (`makeStep`), captura métricas de rendimiento y gestiona el ciclo de vida del reporte PDF.
 
----
+## ✨ Extras y Valor Agregado
 
-## 🔬 Módulos de Investigación Integrados
+* **Evidencia Corporativa Automática**: Genera un PDF formal que incluye: portada, tabla de pasos con estatus de cumplimiento, marcas de tiempo e identificadores de sesión.
+* **Gestión de Flujos Asíncronos**: Implementa algoritmos de reintento (Polling) para validar la transición de estados en transferencias que no son inmediatas (ej. `PENDING` -> `COMPLETED`).
+* **Resiliencia mediante Stubs**: El framework permite simular respuestas del servidor (Stubs), lo que garantiza que la suite de pruebas pueda ejecutarse y certificarse incluso si los servicios externos están en mantenimiento.
+* **Doble Reporteo de Evidencia**:
+    * **Reporte Ejecutivo (PDF)**: Para cumplimiento y auditoría de procesos.
+    * **Reporte Técnico (HTML)**: Para depuración profunda, logs de red y trazas de ejecución.
 
-### 1. Motor de Sincronía AST (Static Analysis)
-Utilizamos **Abstract Syntax Tree (AST)** mediante `ts-morph` para auditar el código fuente en tiempo de compilación. El script de sincronía no busca coincidencias de texto simples; analiza la estructura semántica de los tests para garantizar que cada unidad de código esté mapeada inequívocamente a una entidad de negocio en Jira.
-* *Status:* **Operativo / Blindado.**
+## 🛠️ Instalación y Ejecución
 
-### 2. Orquestador de Contexto (The Butler)
-Módulo de pre-ejecución que funciona como un **Director de Escena**. Realiza un *handshake* con la API de Jira para validar el "hambre de ejecución" de la suite. Si el contexto del Sprint no requiere la validación de un nodo específico, el orquestador lo purga del flujo de ejecución antes de inicializar los drivers de Playwright.
-* *Status:* **Optimización Dinámica.**
+El framework está diseñado para ejecutarse sin necesidad de instalar dependencias locales, haciendo uso de **Docker Compose**.
 
-### 3. Notario de Evidencias & Auto-Lock
-El sistema finaliza con un proceso de **Consolidación de Evidencia Atómica**.
-* **Immutable Evidence:** Generación de PDF-Layers que se inyectan mediante *streams* en la API de Jira, vinculando trazas, videos y capturas.
-* **Smart Lock:** Sistema de persistencia que actúa como una "memoria caché" de calidad, impidiendo la re-ejecución de nodos ya validados y cerrados en ciclos previos.
+### Requisitos:
+* Docker y Docker Compose instalados.
 
----
+### Comandos de ejecución:
 
-## 📊 Arquitectura de Flujo (Internal Logic)
+1.  **Construir el entorno**:
+    ```bash
+    docker compose build
+    ```
 
-1.  **Auditoría:** El motor analiza los archivos `.spec.ts` buscando metadatos de Jira.
-2.  **Sincronización:** Se asegura de que existan los tickets correspondientes y mapea la relación ID-Test.
-3.  **Filtrado:** Se consultan los estados en Jira (To Do, In Progress, Done) para filtrar la suite.
-4.  **Ejecución:** Playwright ejecuta solo los nodos necesarios dentro de un entorno Docker aislado.
-5.  **Consolidación:** El "Notario" recolecta evidencias, las sube a Jira, actualiza estados y bloquea el test localmente.
+2.  **Lanzar Suite de Certificación Completa**:
+    ```bash
+    ./run-test.sh
+    ```
+    *Este script automatiza el ciclo de vida completo: Sincronización del Manifiesto -> Ejecución de Tests -> Consolidación de Evidencias.*
 
----
+## 📂 Estructura de Salida (Entregables)
 
-## 🏁 Estado del Proyecto
+Al finalizar la prueba, los resultados se consolidan en la carpeta `target/Evidencias_PDF/`. La entrega certificada incluye:
 
-Este framework representa una evolución constante en mi **Portafolio de Arquitectura SDET**. Es la materialización de la transición de "Scripts de Prueba" a "Sistemas de Gobierno de Calidad".
-
-> **Nota:** La documentación técnica sobre la orquestación de contenedores y los tokens de acceso al Laboratorio están restringidos. Si intentas ejecutar este motor sin la configuración de variables de entorno propietaria, el sistema activará el freno de mano automático (Exit Code 1).
-
----
-
-**Arquitecto:** Mich Vivar  
-**Fase Actual:** V2.0 - Evolución de Multi-ID & Testware Logic  
-**Tecnologías:** Playwright, TypeScript, Docker, Jira API, TS-Morph.
+* **`Reporte_Tecnico_SPEI.pdf`**: Documento oficial para auditoría con la secuencia de pasos.
+* **`Anexo_Tecnico_Detallado.pdf`**: Logs de bajo nivel generados por Playwright.
+* **`Reporte_Tecnico_HTML/`**: Carpeta interactiva con el detalle granular de la ejecución (abrir `index.html`).
 
 ---
+
+> **Nota de Auditoría:** En pruebas de API pura (Headless), el framework omite capturas de pantalla de interfaces inexistentes para evitar ruido visual, priorizando la integridad de los logs y el resultado de las aserciones de datos en el reporte final.
