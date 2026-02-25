@@ -29,13 +29,12 @@ jobs:
         API_KEY_SPEI: ${{ secrets.API_KEY_SPEI }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: |
-        # Usamos -e para pasar cada secreto al contenedor de forma segura
         docker compose run --rm \
           -e BASE_URL=$BASE_URL \
           -e API_KEY_SPEI=$API_KEY_SPEI \
           -e DB_PASSWORD=$DB_PASSWORD \
           -e EJECUCION_ID="CI-GitHub-$(date +%H%M)" \
-          playwright-app npm run report:full
+          playwright-app npm run report:full # 👈 Quitamos el -g 'api' de aquí si estaba estorbando
 
     - name: 📂 Upload Evidencias (PDFs de Auditoría)
       if: always() # Importante para ver qué falló
